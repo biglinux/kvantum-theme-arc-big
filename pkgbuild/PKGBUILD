@@ -1,0 +1,29 @@
+pkgname=kvantum-theme-arc-big
+pkgver=$(date +%y.%m.%d)
+pkgrel=$(date +%H%M)
+pkgdesc="Arc theme for KDE Plasma 5"
+arch=(any)
+url="https://github.com/biglinux/kvantum-theme-arc-big"
+license=(GPL3)
+options=(!strip)
+source=("git+${url}.git")
+sha256sums=('SKIP')
+optdepends=(
+  'arc-gtk-theme: Arc theme for GTK apps'
+  'arc-icon-theme: Arc icon theme'
+)
+
+package_arc-kde() {
+    optdepends+=('kvantum-theme-arc: Arc theme for Kvantum Qt style (recommended)')
+
+    cd arc-kde
+    DESTDIR=$pkgdir IGNORE=Kvantum make install
+}
+
+package_kvantum-theme-arc() {
+    pkgdesc="Arc theme for Kvantum"
+    depends=('kvantum')
+
+    cd arc-kde
+    DESTDIR=$pkgdir THEMES=Kvantum make install
+}
